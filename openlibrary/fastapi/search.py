@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Annotated, Any, Self
+from typing import Annotated, Any, Literal, Self
 
 from fastapi import APIRouter, Query, Request
 from pydantic import (
@@ -61,8 +61,8 @@ class PublicQueryOptions(BaseModel):
     person: str | None = None
     time: str | None = None
     # from workscheme facet_fields
-    has_fulltext: bool | None = None
-    public_scan_b: bool | None = None
+    has_fulltext: Literal["true", "false"] | None = None
+    public_scan_b: list[Literal["true", "false"]] = []
 
     # List fields (facets)
     author_key: list[str] = Field(
@@ -111,7 +111,11 @@ class PublicQueryOptions(BaseModel):
             },
         },
     )
-    author_facet: list[str] = []
+    author_facet: list[str] = Field(
+        [],
+        description="(alias for author_key) Filter by author key.",
+        examples=["OL1394244A"],
+    )
 
     @field_validator('q')
     @classmethod

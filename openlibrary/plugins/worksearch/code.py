@@ -1262,6 +1262,7 @@ class search_json(delegate.page):
     def GET(self):
         i = web.input(
             author_key=[],
+            author_facet=[],
             subject_facet=[],
             person_facet=[],
             place_facet=[],
